@@ -1,5 +1,21 @@
 #!/bin/bash
 
+# ==============================================================================
+# DESCRIPTION:
+# This script generates a high-resolution mapping file for Initial Conditions.
+#
+# SOURCE GRID: ERA5 global dataset at 721x1440 resolution (approx. 0.25 degree).
+# TARGET GRID: CONUS-RRM 200-m grid, specifically the "conus26_ne1024x4" config 
+#              for the 2026 INCITE project.
+#
+# REGRIDDING ALGORITHM: 
+# This script implements the "fv2se_flx" algorithm as described in NCO manual. 
+# Because the target is a Spectral Element (SE) grid and the source is Finite 
+# Volume (FV), the weights are first generated using options identical to 
+# "se2fv_flx" and then the transpose of that weight matrix is computed via 
+# GenerateTransposeMap to create the final fv2se mapping.
+# ==============================================================================
+
 #SBATCH --account=e3sm
 #SBATCH --job-name moab
 #SBATCH --constraint=cpu
